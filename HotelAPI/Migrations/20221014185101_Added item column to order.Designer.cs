@@ -4,14 +4,16 @@ using HotelAPI.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HotelAPI.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    partial class HotelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221014185101_Added item column to order")]
+    partial class Addeditemcolumntoorder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,6 +96,64 @@ namespace HotelAPI.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("HotelAPI.Models.ViewModels.CartItemViewModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Days")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrderModelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RoomId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderModelId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("CartItemViewModel");
+                });
+
+            modelBuilder.Entity("HotelAPI.Models.ViewModels.HotelViewModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("RoomDes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoomImg")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoomName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoomPrice")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RoomType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HotelViewModel");
+                });
+
             modelBuilder.Entity("HotelAPI.Models.ViewModels.OrderModel", b =>
                 {
                     b.Property<int>("Id")
@@ -134,6 +194,17 @@ namespace HotelAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("HotelAPI.Models.ViewModels.CartItemViewModel", b =>
+                {
+                    b.HasOne("HotelAPI.Models.ViewModels.OrderModel", null)
+                        .WithMany("Items")
+                        .HasForeignKey("OrderModelId");
+
+                    b.HasOne("HotelAPI.Models.ViewModels.HotelViewModel", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId");
                 });
 #pragma warning restore 612, 618
         }

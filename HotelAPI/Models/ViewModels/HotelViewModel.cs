@@ -11,7 +11,8 @@ namespace HotelAPI.Models.ViewModels
         public string RoomName { get; set; }
         public string RoomType { get; set; }
         public string RoomDes { get; set; }
-        public string RoomPrice { get; set; }
+        public int RoomPrice { get; set; }
         public string RoomImg { get; set; }
+        public Boolean Status { get; set; }
     }
 }

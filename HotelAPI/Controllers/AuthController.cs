@@ -47,7 +47,8 @@ namespace HotelAPI.Controllers
                     Country = userObj.Country,
                     FirstName = userObj.FirstName,
                     LastName = userObj.LastName,
-                    State = userObj.State
+                    State = userObj.State,
+                    IsAdmin = userObj.IsAdmin
 
                 };
                 _context.UserModels.Add(user);

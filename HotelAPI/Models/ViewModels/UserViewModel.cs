@@ -18,5 +18,6 @@ namespace HotelAPI.Models.ViewModels
         public string Password { get; set; }
         public string Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public Boolean IsAdmin { get; set; }
     }
 }

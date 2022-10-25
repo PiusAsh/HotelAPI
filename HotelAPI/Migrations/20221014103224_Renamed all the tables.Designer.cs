@@ -4,14 +4,16 @@ using HotelAPI.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HotelAPI.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    partial class HotelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221014103224_Renamed all the tables")]
+    partial class Renamedallthetables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,9 +42,6 @@ namespace HotelAPI.Migrations
 
                     b.Property<string>("RoomType")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -104,19 +103,10 @@ namespace HotelAPI.Migrations
                     b.Property<DateTime>("Book_Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("First_Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Last_Name")
+                    b.Property<string>("Guest_Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Payment_Id")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Room_Id")
@@ -126,9 +116,6 @@ namespace HotelAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Total_Price")
-                        .HasColumnType("int");
-
-                    b.Property<int>("User_Id")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
