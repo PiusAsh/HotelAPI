@@ -9,5 +9,6 @@ namespace HotelAPI.Models
     {
         public int Id { get; set; }
         public RoomModel Room { get; set; } = new RoomModel();
+        
     }
 }

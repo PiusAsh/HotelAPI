@@ -13,7 +13,6 @@ namespace HotelAPI.Models.ViewModels
         public string LastName { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
-        public int TotalPrice { get; set; }
         public string PaymentId { get; set; }
         public DateTime BookDate { get; set; }
         public DateTime EndDate { get; set; }

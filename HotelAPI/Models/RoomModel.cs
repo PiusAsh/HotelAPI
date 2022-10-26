@@ -13,7 +13,7 @@ namespace HotelAPI.Models
         public string RoomName { get; set; }
         public string RoomType { get; set; }
         public string RoomDes { get; set; }
-        public int RoomPrice { get; set; }
+        public int RoomPrice { get; set; } // per room
         public string RoomImg { get; set; }
         public Boolean Status { get; set; }
 

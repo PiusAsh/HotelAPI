@@ -10,17 +10,15 @@ namespace HotelAPI.Models.ViewModels
     {
         [Key]
         public int Id { get; set; }
-        public string First_Name { get; set; }
-        public string Last_Name { get; set; }
-        public string Phone { get; set; }
-        public int User_Id { get; set; }
-        public int Room_Id { get; set; }
+        public UserModel User { get; set; }
+        public RoomModel Room { get; set; }
         public DateTime Book_Date { get; set; }
         public string Payment_Id { get; set; }
-        public int Total_Price { get; set; }
         public string Status { get; set; }
         public DateTime EndDate { get; set; }
-        
+        public int RoomPrice { get; set; } //per rom
+        public int Days { get; set; }
+
 
     }
 }
