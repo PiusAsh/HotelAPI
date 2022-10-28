@@ -27,7 +27,7 @@ namespace HotelAPI.Controllers
             var orderDetails = _context.OrderModels.ToList();
             return Json(orderDetails);
         }
-
+        
         [HttpPost("AddOrder")]
         public IActionResult AddOrder([FromBody] OrderViewModel viewModel)
         {
@@ -41,10 +41,17 @@ namespace HotelAPI.Controllers
                 {
                     Random rd = new Random();
                     int rand_num = rd.Next(1000000, 2000000);
+
                     var order = new OrderModel
                     {
-                        User = _context.UserModels.Find(viewModel.Id),
+
+
                         Room = _context.RoomModels.Find(item.Room.Id),
+                        User = _context.UserModels.Find(viewModel.Id),
+                        FirstName = viewModel.FirstName,
+                        LastName = viewModel.LastName,
+                        Phone = viewModel.Phone,
+
                         Days = item.Days,
                         RoomPrice = item.Price,
                         Payment_Id = "ASH" + rand_num,
@@ -128,6 +135,39 @@ namespace HotelAPI.Controllers
                 orderCount
             });
         }
+
+
+        [HttpGet]
+        [Route("GetAllUserOrders")]
+
+        public async Task<IActionResult> GetAllUserOrders(int userId)
+        {
+            var user = await _context.UserModels.FindAsync(userId);
+            //var recentRoom = await _context.OrderModels.Where(x => x.User == user).OrderByDescending(x => x.Id).Select(x => x.Room).FirstOrDefaultAsync();
+            //var recentRoom = await _context.OrderModels.Where(x => x.User == user).Select(x => x).FirstOrDefaultAsync();
+            var userRooms = await _context.OrderModels.Where(x => x.User == user).Select(x => new OrderModel
+            {
+Id = x.Id,
+Payment_Id = x.Payment_Id,
+Days = x.Days,
+RoomPrice = x.RoomPrice,
+Room = x.Room,
+Status = x.Status
+            }).ToListAsync();
+
+            if (userRooms == null )
+            {
+                return NotFound(new { Message = "No booking list found" });
+
+            }
+
+            return Ok(new
+            {
+                userRooms,
+                
+            });
+        }
+
 
         [HttpDelete]
         [Route("DeleteOrder")]

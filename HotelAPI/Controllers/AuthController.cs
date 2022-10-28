@@ -74,7 +74,8 @@ namespace HotelAPI.Controllers
                     return Ok(new
                     {
                         Message = "Logged In Successfully",
-                        UserData = user.Id
+                        UserData = user.Id,
+                        Admin = user.IsAdmin
                     });
                 }
                 else
