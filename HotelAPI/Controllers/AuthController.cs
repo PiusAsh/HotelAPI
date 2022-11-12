@@ -1,4 +1,5 @@
 ﻿using HotelAPI.Context;
+using HotelAPI.Helper;
 using HotelAPI.Models;
 using HotelAPI.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace HotelAPI.Controllers
@@ -21,6 +24,15 @@ namespace HotelAPI.Controllers
         {
             _context = hotelDbContext;
         }
+
+        public static string HashedPassword(string password)
+        {
+            SHA256 hash = SHA256.Create();
+            var passwordBytes = Encoding.Default.GetBytes(password);
+            var hashedpassword = hash.ComputeHash(passwordBytes);
+            var hexString = BitConverter.ToString(hashedpassword);
+            return hexString;
+        }
         [HttpGet("RegisteredUsers")]
         public IActionResult RegisteredUser()
         {
@@ -30,18 +42,22 @@ namespace HotelAPI.Controllers
         [HttpPost("Register")]
         public IActionResult Register([FromBody] UserViewModel userObj)
         {
+
+
             if (userObj == null)
             {
                 return BadRequest();
             }
             else
             {
+
+                //userObj.Password = PasswordHasher.HashPassword(userObj.Password);
                 var user = new UserModel
                 {
                     Address = userObj.Address,
                     Email = userObj.Email,
                     PhoneNo = userObj.PhoneNo,
-                    Password = userObj.Password,
+                    Password = HashedPassword(userObj.Password),
                     DateOfBirth = userObj.DateOfBirth,
                     Gender = userObj.Gender,
                     Country = userObj.Country,
@@ -51,6 +67,7 @@ namespace HotelAPI.Controllers
                     IsAdmin = userObj.IsAdmin
 
                 };
+                //userObj.Password = PasswordHasher.HashPassword(userObj.Password);
                 _context.UserModels.Add(user);
                 _context.SaveChanges();
                 return Ok(new { Message = "User Added Successfully",
@@ -68,8 +85,8 @@ namespace HotelAPI.Controllers
             }
             else
             {
-                var user = _context.UserModels.Where(a => a.Email == model.Email && a.Password == model.Password).FirstOrDefault();
-                if (user != null)
+                var user = _context.UserModels.Where(a => a.Email == model.Email && a.Password == HashedPassword(model.Password)).FirstOrDefault();
+                if (HashedPassword(model.Password) == user.Password)
                 {
                     return Ok(new
                     {

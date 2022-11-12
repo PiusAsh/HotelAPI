@@ -11,6 +11,9 @@ namespace HotelAPI.Models.ViewModels
         
         public int Days { get; set; }
         public int Price { get; set; }
+        public DateTime StartDate { get; set; }
         public HotelViewModel Room { get; set; }
+        //public DateTime StartDate { get; set; }
+        //public DateTime CheckOutDate { get; set; }
     }
 }

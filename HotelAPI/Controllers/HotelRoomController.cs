@@ -24,7 +24,7 @@ namespace HotelAPI.Controllers
         [HttpGet("GetAllRooms")]
         public IActionResult GeAllRooms()
         {
-            var roomDetails = _context.RoomModels.AsQueryable();
+            var roomDetails = _context.RoomModels.AsQueryable().OrderByDescending(x => x.Id);
             return Ok(roomDetails);
         }
 

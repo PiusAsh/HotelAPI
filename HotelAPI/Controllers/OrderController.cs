@@ -24,7 +24,7 @@ namespace HotelAPI.Controllers
         [HttpGet("AllOrders")]
         public JsonResult AllOrder()
         {
-            var orderDetails = _context.OrderModels.ToList();
+            var orderDetails = _context.OrderModels.ToList().OrderByDescending(x => x.Id);
             return Json(orderDetails);
         }
         
@@ -51,10 +51,12 @@ namespace HotelAPI.Controllers
                         FirstName = viewModel.FirstName,
                         LastName = viewModel.LastName,
                         Phone = viewModel.Phone,
-
                         Days = item.Days,
                         RoomPrice = item.Price,
-                        Payment_Id = "ASH" + rand_num,
+                        Payment_Id = viewModel.PaymentId,
+                      
+                        //StartDate = item.StartDate,
+                        //CheckOutDate = item.CheckOutDate
                     };
                     _context.OrderModels.Add(order);
 
@@ -121,6 +123,7 @@ namespace HotelAPI.Controllers
         {
             var user = await _context.UserModels.FindAsync(userId);
             var recentRoom = await _context.OrderModels.Where(x => x.User == user).OrderByDescending(x => x.Id).Select(x => x.Room.RoomName).FirstOrDefaultAsync();
+
             var orderCount = await _context.OrderModels.Where(x => x.User.Id == userId).CountAsync();
 
             if (recentRoom == null || orderCount == 0)
@@ -153,7 +156,7 @@ Days = x.Days,
 RoomPrice = x.RoomPrice,
 Room = x.Room,
 Status = x.Status
-            }).ToListAsync();
+            }).OrderByDescending( x => x.Id).ToListAsync();
 
             if (userRooms == null )
             {
@@ -168,6 +171,15 @@ Status = x.Status
             });
         }
 
+
+        [HttpGet("searchPaymentId")]
+        public async Task<JsonResult> GetTransactionsBy3(string search)
+        {
+            var trans = await _context.OrderModels.Where(p => p.Payment_Id == search).ToListAsync();
+
+            return new JsonResult(trans);
+
+        }
 
         [HttpDelete]
         [Route("DeleteOrder")]
