@@ -21,13 +21,20 @@ namespace HotelAPI.Controllers
             _context = hotelDbContext;
         }
 
+        //[HttpGet("AllOrders")]
+        //public JsonResult AllOrder()
+        //{
+        //    var orderDetails = _context.OrderModels.ToList().OrderByDescending(x => x.Id);
+        //    return Json(orderDetails);
+        //}
+
         [HttpGet("AllOrders")]
-        public JsonResult AllOrder()
+        public IActionResult AllOrder()
         {
-            var orderDetails = _context.OrderModels.ToList().OrderByDescending(x => x.Id);
-            return Json(orderDetails);
+            var orderDetails = _context.OrderModels.OrderByDescending(x => x.Id).AsQueryable();
+            return Ok(orderDetails);
         }
-        
+
         [HttpPost("AddOrder")]
         public IActionResult AddOrder([FromBody] OrderViewModel viewModel)
         {
@@ -39,8 +46,8 @@ namespace HotelAPI.Controllers
             {
                 foreach (var item in viewModel.Items)
                 {
-                    Random rd = new Random();
-                    int rand_num = rd.Next(1000000, 2000000);
+                    //Random rd = new Random();
+                    //int rand_num = rd.Next(1000000, 2000000);
 
                     var order = new OrderModel
                     {
@@ -54,6 +61,7 @@ namespace HotelAPI.Controllers
                         Days = item.Days,
                         RoomPrice = item.Price,
                         Payment_Id = viewModel.PaymentId,
+                        StartDate = item.StartDate
                       
                         //StartDate = item.StartDate,
                         //CheckOutDate = item.CheckOutDate

@@ -36,7 +36,7 @@ namespace HotelAPI.Controllers
         [HttpGet("RegisteredUsers")]
         public IActionResult RegisteredUser()
         {
-            var userDetails = _context.UserModels.AsQueryable();
+            var userDetails = _context.UserModels.OrderByDescending(x => x.Id).AsQueryable();
             return Ok(userDetails);
         }
         [HttpPost("Register")]

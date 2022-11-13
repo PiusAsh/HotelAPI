@@ -17,7 +17,7 @@ namespace HotelAPI.Models.ViewModels
         public RoomModel Room { get; set; }
         public string Payment_Id { get; set; }
         public string Status { get; set; }
-        public DateTime StartDate { get; set; }
+        public string StartDate { get; set; }
         //public DateTime CheckOutDate  { get; set; } //DAT
         public int RoomPrice { get; set; } //per rom
         public int Days { get; set; }
